@@ -1,0 +1,76 @@
+name: Deploy Website to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Kiểm tra mã nguồn (Code Quality Check)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tải mã nguồn về Runner
+        uses: actions/checkout@v4
+
+      - name: Kiểm tra tối thiểu 3 file (index.html, style.css, script.js)
+        run: |
+          echo "=== [BƯỚC 1] KIỂM TRA SỰ TỒN TẠI CỦA 3 FILE NGUỒN ==="
+          MISSING_FILES=0
+          for file in index.html style.css script.js; do
+            if [ -f "$file" ]; then
+              echo "✓ Đã tìm thấy file bắt buộc: $file"
+            else
+              echo "✗ LỖI: Không tìm thấy file: $file"
+              MISSING_FILES=1
+            fi
+          done
+          if [ $MISSING_FILES -ne 0 ]; then
+            echo "Thất bại: Dự án thiếu một trong các file cơ bản!"
+            exit 1
+          fi
+          echo "=> Tất cả 3 file đều tồn tại đầy đủ."
+
+      - name: Kiểm tra file index.html có thẻ <title>
+        run: |
+          echo "=== [BƯỚC 2] KIỂM TRA THẺ <title> TRONG index.html ==="
+          if grep -qi "<title>.*</title>" index.html; then
+            echo "✓ Hợp lệ: Đã tìm thấy thẻ <title> trong file index.html"
+            grep -i "<title>.*</title>" index.html
+          else
+            echo "✗ LỖI: File index.html thiếu thẻ <title> bắt buộc!"
+            exit 1
+          fi
+
+  deploy:
+    name: Triển khai lên GitHub Pages (Deploy)
+    needs: check
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tải mã nguồn về Runner
+        uses: actions/checkout@v4
+
+      - name: Thiết lập môi trường GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Nén và tải lên Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Xuất bản lên GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

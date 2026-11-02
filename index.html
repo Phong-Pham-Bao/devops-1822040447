@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI/CD Deployment Demo - Phạm Bảo Phong</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="card">
+      <div class="badge-row">
+        <span class="badge badge-success" id="versionBadge">Phiên bản 1.0</span>
+        <span class="badge badge-info">GitHub Actions CI/CD</span>
+      </div>
+      <h1>Phạm Bảo Phong - 1822040447</h1>
+      <p class="subtitle">Báo cáo bài tập cá nhân: Triển khai Website tự động với GitHub Actions</p>
+    </header>
+
+    <main class="card">
+      <section class="info-grid">
+        <div class="info-item">
+          <span class="label">Môn học:</span>
+          <span class="value">Thiết Kế Phần Mềm (TKPM)</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Giảng viên hướng dẫn:</span>
+          <span class="value">ThS. Bùi Minh Phụng</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Địa điểm:</span>
+          <span class="value">Biên Hòa, Đồng Nai</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Khoa / Trường:</span>
+          <span class="value">Khoa CNTT - Đại học Lạc Hồng</span>
+        </div>
+      </section>
+
+      <section class="pipeline-status">
+        <h2>Trạng Thái Pipeline Tự Động</h2>
+        <div class="step-list">
+          <div class="step-card active">
+            <div class="step-icon">✓</div>
+            <div class="step-content">
+              <strong>Job 1: check</strong>
+              <p>Kiểm tra tính toàn vẹn mã nguồn (3 file: HTML, CSS, JS và thẻ &lt;title&gt;).</p>
+            </div>
+          </div>
+          <div class="step-card active">
+            <div class="step-icon">✓</div>
+            <div class="step-content">
+              <strong>Job 2: deploy</strong>
+              <p>Tự động build và xuất bản lên GitHub Pages khi check thành công.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="action-box">
+        <button id="btnCheckStatus" class="btn btn-primary">Kiểm tra kết nối tương tác</button>
+        <button id="btnToggleTheme" class="btn btn-secondary">Đổi chế độ giao diện</button>
+      </div>
+
+      <div id="statusResult" class="status-result hidden"></div>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 Phạm Bảo Phong - MSSV: 1822040447. Tự động triển khai qua GitHub Actions.</p>
+      <p id="liveClock" class="clock"></p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
